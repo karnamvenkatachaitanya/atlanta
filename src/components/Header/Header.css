@@ -1,0 +1,333 @@
+/* Header.css */
+/* --- Base Header Styles --- */
+.header {
+  background: transparent;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: top 0.3s ease-in-out, background 0.3s ease-in-out, 
+              box-shadow 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+}
+
+/* --- State: Scrolled / Menu Open --- */
+.header--scrolled,
+.header.menu-is-open {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* FIX: Ensure header is above overlay when menu is open */
+.header.menu-is-open {
+  z-index: 1003;
+}
+
+/* --- State: Hidden on Scroll Down --- */
+.header--hidden {
+  top: -100px;
+}
+
+.header .container {
+  display: grid;
+  /* FIX: Robust grid layout for desktop view */
+  grid-template-columns: auto 1fr auto; 
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+/* --- Logo - Left Side --- */
+.logo {
+  grid-column: 1 / 2;
+  z-index: 1001;
+}
+
+.logo img {
+  height: 55px;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+}
+
+/* --- Navigation - Center (Desktop) --- */
+.nav {
+  grid-column: 2 / 3;
+  justify-self: center;
+}
+
+/* The mobile wrapper is hidden completely on desktop */
+.mobile-menu-content {
+  display: contents; /* This makes the div act like it's not there, letting .nav-links be a direct child for styling */
+}
+
+.mobile-menu-header, .mobile-cta-section, .menu-close {
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  position: relative;
+  padding-bottom: 5px;
+  white-space: nowrap; /* Prevents links from breaking into two lines */
+}
+
+/* Desktop underline hover effect */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #2c5aa0;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-links a:hover {
+  color: #2c5aa0;
+}
+
+/* Hiding emoji spans on desktop */
+.nav-links a span {
+  display: none;
+}
+
+
+/* --- CTA & Hamburger - Right Side --- */
+.header-cta {
+  grid-column: 3 / 4;
+  justify-self: end;
+}
+
+.menu-toggle {
+  display: none; /* Hide hamburger by default */
+  grid-column: 3 / 4;
+  justify-self: end;
+  z-index: 1001;
+}
+
+.cta-button {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.cta-button:hover {
+  background: linear-gradient(135deg, #5a6fd8, #6a4190);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  color: white;
+}
+
+/* --- Hamburger Icon Styling --- */
+.menu-toggle {
+  flex-direction: column;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  height: 40px;
+  width: 40px;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: #333;
+  margin: 4px 0;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 3px;
+}
+
+/* Hamburger animation to 'X' */
+.menu-is-open .menu-toggle span:nth-child(1) {
+  transform: translateY(11px) rotate(135deg);
+}
+.menu-is-open .menu-toggle span:nth-child(2) {
+  opacity: 0;
+  transform: scale(0);
+}
+.menu-is-open .menu-toggle span:nth-child(3) {
+  transform: translateY(-11px) rotate(-135deg);
+}
+
+
+/* --- Tablet & Mobile Styles --- */
+@media (max-width: 992px) {
+  /* Hide desktop-only elements */
+  .nav-links { display: none; }
+  .header-cta { display: none; }
+
+  /* Show mobile-only elements */
+  .menu-toggle { display: flex; }
+
+  /* Adjust grid for logo and hamburger only */
+  .header .container {
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+  }
+
+  /* --- Mobile Menu Container (the <nav> element) --- */
+  .nav {
+    grid-column: unset; /* The nav is no longer in the grid */
+    position: fixed;
+    top: 0;
+    right: 0;
+    /* FIX: Reduced width for mobile */
+    width: 290px;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    z-index: 1002;
+    box-shadow: -5px 0 50px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Show and style the mobile menu wrapper */
+  .mobile-menu-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+  }
+
+  /* Show mobile header/footer and style them */
+  .mobile-menu-header, .mobile-cta-section, .menu-close {
+    display: flex;
+  }
+
+  .mobile-menu-header {
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 1.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-logo {
+    display: flex; /* FIX: Added display flex to align logo and text */
+    align-items: center; 
+    gap: 12px; 
+    color: white;
+    font-weight: 700; 
+    font-size: 1.2rem;
+  }
+  .mobile-logo img { height: 35px; filter: brightness(0) invert(1); }
+  .menu-close {
+    background: rgba(255, 255, 255, 0.2); border: none; font-size: 2rem;
+    color: white; cursor: pointer; width: 45px; height: 45px;
+    border-radius: 50%; align-items: center;
+    justify-content: center; transition: all 0.3s ease;
+  }
+  .menu-close:hover { background: rgba(255, 255, 255, 0.3); }
+
+  /* Re-style .nav-links for vertical layout */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 2rem 0;
+    flex: 1; /* Takes up available space */
+    width: 100%;
+  }
+
+  .nav-links li { width: 100%; list-style: none; }
+  .nav-links a {
+    color: white; font-size: 1.1rem; font-weight: 500;
+    padding: 1rem 1.5rem; display: flex; align-items: center;
+    gap: 15px; width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .nav-links a:hover { background: rgba(255, 255, 255, 0.1); }
+  .nav-links a::after { display: none; } /* No underline on mobile */
+  .nav-links a span { display: inline-block; } /* Show emojis */
+
+  /* Mobile CTA Section */
+  .mobile-cta-section {
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+
+  .cta-button-mobile {
+    background: white; color: #667eea; border: none; padding: 1.1rem 2rem;
+    border-radius: 15px; font-weight: 700; font-size: 1.1rem;
+    cursor: pointer; text-decoration: none;
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; width: 100%; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  .cta-button-mobile:hover { transform: translateY(-3px); }
+
+  .cta-subtitle {
+    color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;
+    margin-top: 0.8rem; font-weight: 400;
+  }
+
+  /* FIX: Overlay to close menu */
+  .menu-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; 
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1001; /* Behind the menu but above page content */
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+}
+
+@media (max-width: 480px) {
+  .header .container { padding: 0.75rem 1rem; }
+  .logo img { height: 40px; }
+  /* FIX: Further reduce menu width */
+  .nav { width: 260px; }
+}
+
