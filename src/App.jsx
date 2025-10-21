@@ -7,6 +7,7 @@ import About from './pages/About/About';
 import Services from './pages/Services/Services';
 import Insights from './pages/Insights/Insights';
 import Careers from './pages/Careers/Careers';
+import Partner from './pages/Partner/Partner'; // Add this import
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/insights" element={<Insights />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/partner-with-us" element={<Partner />} /> {/* Add this route */}
           </Routes>
         </main>
         <Footer />

@@ -93,10 +93,12 @@ const Header = () => {
                 <li><a href="/services" onClick={closeMenu}><span>⚙️</span>Services</a></li>
                 <li><a href="/insights" onClick={closeMenu}><span>💡</span>Insights</a></li>
                 <li><a href="/careers" onClick={closeMenu}><span>💼</span>Careers</a></li>
+                {/* ADDED: Partner With Us link */}
+                <li><a href="/partner-with-us" onClick={closeMenu}><span>🤝</span>Partner With Us</a></li>
               </ul>
               
               <div className="mobile-cta-section">
-                <a href="#get-started" className="cta-button-mobile" onClick={closeMenu}>
+                <a href="/partner-with-us" className="cta-button-mobile" onClick={closeMenu}>
                   Partner With Us
                 </a>
                 <p className="cta-subtitle">Let's build something amazing together</p>
@@ -105,7 +107,7 @@ const Header = () => {
           </nav>
 
           <div className="header-cta">
-            <a href="#get-started" className="cta-button">Partner With Us</a>
+            <a href="/partner-with-us" className="cta-button">Partner With Us</a>
           </div>
 
           <button 
